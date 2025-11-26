@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+/* 1. Define the Professional Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Oswald:wght@400;500;700&family=Playfair+Display:ital@0;1&display=swap');
+
+/* 2. Configure the Theme (The V4 Way) */
+@theme {
+  /* Fonts */
+  --font-sans: "Inter", sans-serif;
+  --font-serif: "Playfair Display", serif;
+  --font-heading: "Oswald", sans-serif;
+
+  /* The UkemeLenz Palette (Strategy A) */
+  --color-brand-gold: #C5A059;       /* Primary Accent */
+  --color-brand-goldHover: #B08D45;  /* Darker Gold */
+  --color-brand-black: #121212;      /* Rich Black Background */
+  --color-brand-dark: #050505;       /* Deepest Black (Footer) */
+  --color-brand-white: #F5F5F5;      /* Soft White Text */
+  --color-brand-gray: #2C2C2C;       /* Secondary Background */
+}
+
+/* 3. Base Professional Styles */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    /* Default to Light Mode (White Bg, Dark Text) */
+    @apply bg-white text-brand-black antialiased transition-colors duration-300;
+  }
+
+  /* Dark Mode Overrides (Triggered by class="dark") */
+  :root.dark body {
+    @apply bg-brand-black text-brand-white;
+  }
+}
+
+/* 4. Custom Utility for the "Glass" Effect */
+@layer utilities {
+  .glass-nav {
+    @apply backdrop-blur-md bg-white/80 dark:bg-brand-black/80 border-b border-gray-200 dark:border-gray-800;
+  }
+}
