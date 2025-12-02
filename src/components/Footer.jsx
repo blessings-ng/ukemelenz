@@ -6,7 +6,7 @@ const Footer = () => {
       
       {/* 1. Name & Title */}
       <div className="text-center mb-8">
-        <h2 className="text-3xl md:text-4xl font-heading font-bold uppercase tracking-wide text-white mb-2">
+        <h2 className="text-3xl md:text-4xl font-heading font-bold tracking-wide text-white mb-2">
           Ukeme Gideon
         </h2>
         <p className="text-xs md:text-sm text-gray-400 uppercase tracking-[0.25em] font-sans">

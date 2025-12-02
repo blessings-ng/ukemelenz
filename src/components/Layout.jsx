@@ -7,22 +7,21 @@ const Layout = ({ children }) => {
   const isHome = location.pathname === '/';
 
   return (
-    <div className="flex min-h-screen bg-brand-black">
+    // PERMANENT DARK BACKGROUND
+    <div className="flex min-h-screen bg-brand-surface text-white">
       
-      {/* COLUMN 1: Fixed Sidebar (Width 72) */}
+      {/* 1. SIDEBAR */}
       <Sidebar />
 
-      {/* COLUMN 2: Main Content (Takes remaining space) */}
-      {/* md:ml-72 ensures it starts to the right of the sidebar */}
+      {/* 2. MAIN CONTENT */}
       <main className="flex-1 md:ml-72 flex flex-col min-h-screen relative">
         
         {/* Page Content */}
-        {/* We use flex-grow so it pushes the footer down if content is short */}
-        <div className="flex-grow">
+        <div className="flex-grow w-full">
           {children}
         </div>
 
-        {/* Footer Info (Attached to bottom of Content Column) */}
+        {/* Footer (Hidden on Home) */}
         {!isHome && <Footer />}
         
       </main>

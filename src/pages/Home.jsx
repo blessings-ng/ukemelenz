@@ -1,95 +1,157 @@
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '../components/Footer';
+import PageTransition from '../components/PageTransition';
+
+// --- 1. IMPORT YOUR IMAGES HERE ---
+// Change the paths to match exactly where your photos are
+import slide1 from '../assets/images/hero-slider1.jpg';
+import slide2 from '../assets/images/hero-slider2.jpg';
+// import slide3 from '../assets/images/hero-slider3.jpg';
+// import slide4 from '../assets/images/hero-slider4.jpg';
+// import slide5 from '../assets/images/hero-slider5.jpg';
 
 const Home = () => {
+  const text = "UKEME LENZ";
+
+  // --- 2. USE THE IMPORTED VARIABLES IN THE ARRAY ---
+  const slides = [slide1, slide2, ];
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Auto-Rotate Logic (5 seconds)
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [slides.length]);
+
+  // Animation Configs
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.5 },
+    },
+  };
+
+  const letterVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { duration: 0.4, ease: "easeOut" } 
+    },
+  };
+
   return (
-    <div className="relative w-full">
-      
-      {/* 1. FIXED BACKGROUND */}
-      {/* FIX: Removed 'ml-72' on mobile. Now it is full width on mobile, and offset only on desktop. */}
-      <div className="fixed top-0 left-0 w-full h-screen z-0 md:ml-72">
-        <img 
-          src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=2550&auto=format&fit=crop" 
-          alt="UkemeLenz Hero" 
-          className="w-full h-full object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-black/60"></div>
-        <div className="absolute inset-0 opacity-[0.05] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
-      </div>
-
-      {/* 2. THE VIEWFINDER HERO */}
-      <div className="relative z-10 w-full h-screen flex flex-col justify-center items-center text-white px-4">
-        <motion.div 
-          initial={{ opacity: 0, y: 50 }} 
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          className="relative p-6 md:p-10 text-center max-w-[90%]"
-        >
-          {/* BRACKETS: Smaller on mobile (w-8), larger on desktop (w-16) */}
-          <div className="absolute top-0 left-0 w-8 h-8 md:w-16 md:h-16 border-t-[3px] border-l-[3px] border-brand-gold drop-shadow-lg"></div>
-          <div className="absolute top-0 right-0 w-8 h-8 md:w-16 md:h-16 border-t-[3px] border-r-[3px] border-brand-gold drop-shadow-lg"></div>
-          <div className="absolute bottom-0 left-0 w-8 h-8 md:w-16 md:h-16 border-b-[3px] border-l-[3px] border-brand-gold drop-shadow-lg"></div>
-          <div className="absolute bottom-0 right-0 w-8 h-8 md:w-16 md:h-16 border-b-[3px] border-r-[3px] border-brand-gold drop-shadow-lg"></div>
-
-          {/* TEXT: Responsive sizing */}
-          <h1 className="text-4xl md:text-8xl font-heading font-bold uppercase tracking-tight mb-2 md:mb-4 text-white drop-shadow-2xl">
-            Ukeme Gideon
-          </h1>
-          <p className="text-[10px] md:text-sm font-sans tracking-[0.3em] uppercase text-brand-gold font-bold">
-            Visual Artist / Creative Director
-          </p>
-        </motion.div>
-
-        {/* Scroll Hint */}
-        <div className="absolute bottom-20 md:bottom-12 animate-pulse text-white/50 text-[10px] tracking-[0.3em] uppercase">
-          Scroll to Discover
-        </div>
-      </div>
-
-      {/* 3. THE WRITE-UP */}
-      <div className="relative z-20 bg-brand-black w-full text-white border-t border-white/5 shadow-2xl">
+    <PageTransition>
+      <div className="w-full relative bg-brand-black">
         
-        {/* Responsive Padding: px-6 on mobile, px-8 on desktop */}
-        <div className="max-w-4xl mx-auto px-6 py-20 md:px-8 md:py-32">
+        {/* STICKY HERO SECTION */}
+        <div className="sticky top-0 h-screen w-full overflow-hidden z-0">
           
-          <h4 className="text-brand-gold text-xs font-bold tracking-[0.25em] uppercase mb-6 md:mb-8 border-l-2 border-brand-gold pl-4">
-            The Philosophy
-          </h4>
-          
-          {/* Responsive Heading Size */}
-          <h2 className="text-2xl md:text-5xl font-heading font-bold mb-8 md:mb-12 leading-tight text-white">
-            Elevating Visual Narratives <br/>
-            <span className="text-gray-500">Beyond the Ordinary.</span>
-          </h2>
-
-          <div className="space-y-6 md:space-y-8 text-gray-300 font-sans text-base md:text-lg leading-relaxed text-justify md:text-left">
-            <p>
-              <strong className="text-white">UkemeLenz</strong> stands at the intersection of technical precision and artistic intuition. We do not simply document events; we curate visual legacies.
-            </p>
-            <p>
-              Led by Ukeme Gideon, a creative director with a distinct eye for editorial elegance, our work transcends traditional photography. We specialize in crafting high-impact imagery for weddings, lifestyle campaigns, and corporate brands that demand a sophisticated visual identity.
-            </p>
-            <p>
-              In a digital landscape saturated with noise, clarity is power. Whether directing a high-fashion editorial or capturing the raw emotion of nuptials, our approach remains singular: to produce timeless visuals that resonate with authenticity and authority.
-            </p>
+          {/* BACKGROUND SLIDER */}
+          <div className="absolute inset-0 w-full h-full bg-black">
+            <AnimatePresence mode="popLayout">
+              <motion.img 
+                key={currentSlide}
+                src={slides[currentSlide]} // Uses the local image variable
+                alt="UkemeLenz Slider"
+                initial={{ opacity: 0, scale: 1.1 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1.5, ease: "easeInOut" }}
+                className="absolute inset-0 w-full h-full object-cover object-center"
+              />
+            </AnimatePresence>
+            
+            {/* Overlays */}
+            <div className="absolute inset-0 bg-black/40 z-10"></div>
+            <div className="absolute inset-0 opacity-[0.05] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] z-10"></div>
           </div>
 
-          <div className="mt-12 md:mt-16 pt-8 border-t border-white/10">
-            <p className="font-heading text-xl md:text-2xl text-white uppercase tracking-widest">
-              Ukeme Gideon
-            </p>
-            <p className="text-brand-gold text-[10px] md:text-xs tracking-widest uppercase mt-1">
-              Principal Photographer
-            </p>
-          </div>
+          {/* HERO CONTENT */}
+          <div className="absolute inset-0 flex flex-col justify-center items-center text-white px-4 z-20">
+             <div className="relative p-8 md:p-14 text-center max-w-[95%]">
+                
+                {/* Gold Brackets */}
+                <div className="absolute top-0 left-0 w-4 h-8 md:w-6 md:h-6 border-t-[3px] border-l-[3px] border-brand-gold drop-shadow-lg"></div>
+                <div className="absolute top-0 right-0 w-4 h-8 md:w-6 md:h-6 border-t-[3px] border-r-[3px] border-brand-gold drop-shadow-lg"></div>
+                <div className="absolute bottom-0 left-0 w-4 h-8 md:w-6 md:h-6 border-b-[3px] border-l-[3px] border-brand-gold drop-shadow-lg"></div>
+                <div className="absolute bottom-0 right-0 w-4 h-8 md:w-6 md:h-6 border-b-[3px] border-r-[3px] border-brand-gold drop-shadow-lg"></div>
 
+                {/* Text Animation */}
+                <motion.h1 
+                  className="text-4xl md:text-8xl font-heading font-bold uppercase tracking-tight mb-4 text-white drop-shadow-2xl flex flex-wrap justify-center gap-x-2 md:gap-x-4"
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  {text.split(" ").map((word, wordIndex) => (
+                    <div key={wordIndex} className="flex">
+                      {word.split("").map((char, charIndex) => (
+                        <motion.span key={charIndex} variants={letterVariants}>
+                          {char}
+                        </motion.span>
+                      ))}
+                    </div>
+                  ))}
+                </motion.h1>
+
+                {/* Subtitle */}
+                <motion.p 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.8, duration: 0.8 }}
+                  className="text-[10px] md:text-sm font-sans tracking-[0.3em] uppercase text-brand-gold font-bold"
+                >
+                  Visual Artist / Creative Director
+                </motion.p>
+             </div>
+             
+            
+          </div>
         </div>
 
-        <Footer />
-        
-      </div>
+        {/* SCROLLING CONTENT (The Curtain) */}
+        <div className="relative z-30 bg-brand-black border-t border-white/5 shadow-[0_-20px_60px_rgba(0,0,0,0.8)]">
+          
+          <div className="max-w-4xl mx-auto px-6 py-24 md:px-8 md:py-32">
+            <h4 className="text-brand-gold text-xs font-bold tracking-[0.25em] uppercase mb-6 md:mb-8 border-l-2 border-brand-gold pl-4">
+              The Philosophy
+            </h4>
+            
+            <h2 className="text-2xl md:text-5xl font-heading font-bold mb-8 md:mb-12 leading-tight text-white">
+              Elevating Visual Narratives <br/>
+              <span className="text-gray-500">Beyond the Ordinary.</span>
+            </h2>
 
-    </div>
+            <div className="space-y-6 md:space-y-8 text-gray-300 font-sans text-base md:text-lg leading-relaxed text-justify md:text-left">
+              <p>
+                <strong className="text-white">UkemeLenz</strong> stands at the intersection of technical precision and artistic intuition. We do not simply document events; we curate visual legacies.
+              </p>
+              <p>
+                Led by UKEME LENZ, a creative director with a distinct eye for editorial elegance, our work transcends traditional photography. We specialize in crafting high-impact imagery for weddings, lifestyle campaigns, and corporate brands.
+              </p>
+            </div>
+
+            <div className="mt-12 pt-8 border-t border-white/10">
+              <p className="font-heading text-xl md:text-2xl text-white uppercase tracking-widest">
+                Ukeme Gideon
+              </p>
+              <p className="text-brand-gold text-[10px] tracking-widest uppercase mt-1">
+                Principal Photographer
+              </p>
+            </div>
+          </div>
+
+          <Footer />
+        </div>
+
+      </div>
+    </PageTransition>
   );
 };
 
